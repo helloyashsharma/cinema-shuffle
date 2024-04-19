@@ -37,6 +37,6 @@ Install dependencies
 Run the program
 
 ```python
-python cinema-shuffle.py
+  python cinema-shuffle.py
 ```
 
