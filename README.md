@@ -6,7 +6,7 @@ Work in progress python script to pick movies based on user criteria. This produ
 ## Features
 
 - List recently popular movies
-- Specify year range to search for movies
+- Specify genre and year range to search for movies
 
 
 ## Requirements
