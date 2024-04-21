@@ -1,5 +1,10 @@
 import requests
 
+# Variable to store list of genres
+gList = "string"
+
+selectedGenre = "string"
+
 # Variable to store json response from api
 output = "string"
 
@@ -11,16 +16,30 @@ isFYearOk = False
 intialyear = 1900
 finalyear = 2024
 
+# Function to fetch list of available genres
+def reqGenre():
+    url = "https://api.themoviedb.org/3/genre/movie/list?language=en"
+
+    headers = {
+        "accept": "application/json",
+        "Authorization": "Bearer " + bearer_token
+    }
+
+    global gList
+    gList = requests.get(url, headers=headers)
+    gList = gList.json()
+
 # Ask user for tmdb bearer token
 bearer_token = input("Enter your bearer token to start using the app:")
 print("Token accepted.")
+reqGenre()
 
 # Function to send a request to the api
 def ping():
     if option == "1":
         url = "https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&sort_by=popularity.desc"
     elif option == "2":
-        url = "https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&primary_release_date.gte="+intialyear+"&primary_release_date.lte="+finalyear+"&sort_by=popularity.desc"
+        url = "https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&primary_release_date.gte="+intialyear+"&primary_release_date.lte="+finalyear+"&sort_by=popularity.desc&with_genres="+selectedGenre
     headers = {
         "accept": "application/json",
         "Authorization": "Bearer " + bearer_token
@@ -28,7 +47,7 @@ def ping():
     global output
     output = requests.get(url, headers=headers)
     output = output.json()
-
+    
 # Function to parse response from api
 def parse():
     print("\nList of movies:\n")
@@ -43,7 +62,7 @@ def parse():
         print("Released on: "+output['results'][i]['release_date'])
         print("Rating: {:.2f}".format(output['results'][i]['vote_average'])) # Truncating rating up to 2 decimal places
         print("Synopsis: "+output['results'][i]['overview']+"\n")
-        i +=1
+        i+=1
 
 # Function to format the input years from user
 def formatYear():
@@ -86,6 +105,15 @@ elif option == "2":
             print("\nYear should be a number.\n")
 
     formatYear()
+
+    lengthOfGlist = len(gList['genres'])
+    i = 0
+    while i < lengthOfGlist:
+        print(str(gList['genres'][i]['id'])+" "+gList['genres'][i]['name'])
+        i+=1
+
+    selectedGenre = input("\nSelect one genre from the above list using its id.")
+
     ping()
     parse()
 
