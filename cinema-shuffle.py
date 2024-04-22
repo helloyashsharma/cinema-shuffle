@@ -5,6 +5,8 @@ gList = "string"
 
 selectedGenre = "string"
 
+lengthOfGlist = 0
+
 # Variable to store json response from api
 output = "string"
 
@@ -28,6 +30,15 @@ def reqGenre():
     global gList
     gList = requests.get(url, headers=headers)
     gList = gList.json()
+
+    # adding serial number to the genres
+    global lengthOfGlist
+    lengthOfGlist = len(gList['genres'])
+    i=0
+    while i < lengthOfGlist:
+        gList['genres'][i]['sn'] = i+1 # Adding 1 to first entry instead of 0
+        i+=1
+
 
 # Ask user for tmdb bearer token
 bearer_token = input("Enter your bearer token to start using the app:")
@@ -106,13 +117,17 @@ elif option == "2":
 
     formatYear()
 
-    lengthOfGlist = len(gList['genres'])
+    # Print list of genres to select from
     i = 0
     while i < lengthOfGlist:
-        print(str(gList['genres'][i]['id'])+" "+gList['genres'][i]['name'])
+        print(str(gList['genres'][i]['sn'])+" "+gList['genres'][i]['name'])
         i+=1
 
-    selectedGenre = input("\nSelect one genre from the above list using its id.")
+    # Select Genre
+    selectedSn = int(input("\nSelect one genre from the above list using its serial number.\n"))
+
+    # Parse the input to send to ping function's url
+    selectedGenre = str(gList["genres"][selectedSn-1]['id']) # "selectedSn-1" to adjust for dict starting from 0
 
     ping()
     parse()
