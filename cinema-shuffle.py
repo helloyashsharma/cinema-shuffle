@@ -1,5 +1,8 @@
 import requests
 
+# Variable to store json response from api
+output = "string"
+
 # Variable to store list of genres
 gList = "string"
 
@@ -7,12 +10,13 @@ selectedGenre = "string"
 
 lengthOfGlist = 0
 
-# Variable to store json response from api
-output = "string"
-
 # Variables to store year ranges
 intialyear = 1900
 finalyear = 2024
+
+# Variables to store min and max rating
+minRating = 0
+maxRating = 10
 
 # Function to fetch list of available genres
 def reqGenre():
@@ -46,7 +50,7 @@ def ping():
     if option == "1":
         url = "https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&sort_by=popularity.desc"
     elif option == "2" or option == "3":
-        url = "https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&primary_release_date.gte="+intialyear+"&primary_release_date.lte="+finalyear+"&sort_by=popularity.desc&with_genres="+selectedGenre
+        url = "https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&primary_release_date.gte="+intialyear+"&primary_release_date.lte="+finalyear+"&sort_by=popularity.desc&with_genres="+selectedGenre+"&vote_average.gte="+minRating+"&vote_average.lte="+maxRating
     headers = {
         "accept": "application/json",
         "Authorization": "Bearer " + bearer_token
@@ -127,6 +131,37 @@ def genreMenu():
     # Parse the input to send to ping function's url
     selectedGenre = str(gList["genres"][selectedSn-1]['id']) # "selectedSn-1" to adjust for dict starting from 0
 
+# Function to provide rating range selection
+def ratingRange():
+    global minRating
+    global maxRating
+
+    # Boolean to check ratings
+    isMinOk = False
+    isMaxOk = False
+    
+    while isMinOk == False:
+        try:
+            minRating = int(input("\nInput minimum rating for searching movies: \nE.g. 3\n"))
+            if 0 > minRating or minRating > 10:
+                print("\nInvalid value, select a rating between 0 and 10.\n")
+            else:
+                isMinOk = True
+                minRating = str(minRating)
+        except ValueError:
+            print("\nRating should be a number.\n")
+
+    while isMaxOk == False:
+        try:
+            maxRating = int(input("\nInput maximum rating for searching movies: \nE.g. 8\n"))
+            if 0 > maxRating or maxRating > 10:
+                print("\nInvalid value, select a rating between 0 and 10.\n")
+            else:
+                isMaxOk = True
+                maxRating = str(maxRating)
+        except ValueError:
+            print("\nRating should be a number.\n")
+
 
 # Provide user options
 option = input("\nWhat would you like to do ? \n\n1.Discover recently popular movies.\n2.Search for movies in a particular year range.\n3.Search for movies in a single year.\nSelect from options: 1, 2, 3\n")
@@ -141,6 +176,7 @@ elif option == "2":
     checkYears()
     formatYear()
     genreMenu()
+    ratingRange()
     
 
     ping()
@@ -163,6 +199,8 @@ elif option == "3":
             
     formatYear()
     genreMenu()
+    ratingRange()
+
 
     ping()
     parse()
