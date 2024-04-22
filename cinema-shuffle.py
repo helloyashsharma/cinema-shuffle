@@ -10,10 +10,6 @@ lengthOfGlist = 0
 # Variable to store json response from api
 output = "string"
 
-# Boolean to check years
-isIYearOk = False
-isFYearOk = False
-
 # Variables to store year ranges
 intialyear = 1900
 finalyear = 2024
@@ -49,7 +45,7 @@ reqGenre()
 def ping():
     if option == "1":
         url = "https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&sort_by=popularity.desc"
-    elif option == "2":
+    elif option == "2" or option == "3":
         url = "https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&primary_release_date.gte="+intialyear+"&primary_release_date.lte="+finalyear+"&sort_by=popularity.desc&with_genres="+selectedGenre
     headers = {
         "accept": "application/json",
@@ -75,24 +71,16 @@ def parse():
         print("Synopsis: "+output['results'][i]['overview']+"\n")
         i+=1
 
-# Function to format the input years from user
-def formatYear():
+# Year checker
+def checkYears():
+
     global intialyear
     global finalyear
 
-    intialyear = str(intialyear)+"-01-01"
-    finalyear = str(finalyear)+"-12-31"
-
-# Provide user options
-option = input("\nWhat would you like to do ? \n\n1.Discover recently popular movies.\n2.Search for movies in a particular year range.\nSelect from options: 1, 2\n")
-
-# Check user input
-if option == "1":
-    ping()
-    parse()
-
-elif option == "2":
-# Ask for year range
+    # Boolean to check years
+    isIYearOk = False
+    isFYearOk = False
+    
     while isIYearOk == False:
         try:
             intialyear = int(input("\nInput initial year for searching movies: \nE.g. 2004\n"))
@@ -115,7 +103,17 @@ elif option == "2":
         except ValueError:
             print("\nYear should be a number.\n")
 
-    formatYear()
+# Function to format the input years from user
+def formatYear():
+    global intialyear
+    global finalyear
+
+    intialyear = str(intialyear)+"-01-01"
+    finalyear = str(finalyear)+"-12-31"
+
+# Function to provide genre selection
+def genreMenu():
+    global selectedGenre
 
     # Print list of genres to select from
     i = 0
@@ -128,6 +126,43 @@ elif option == "2":
 
     # Parse the input to send to ping function's url
     selectedGenre = str(gList["genres"][selectedSn-1]['id']) # "selectedSn-1" to adjust for dict starting from 0
+
+
+# Provide user options
+option = input("\nWhat would you like to do ? \n\n1.Discover recently popular movies.\n2.Search for movies in a particular year range.\n3.Search for movies in a single year.\nSelect from options: 1, 2, 3\n")
+
+# Check user input
+if option == "1":
+    ping()
+    parse()
+
+elif option == "2":
+# Ask for year range
+    checkYears()
+    formatYear()
+    genreMenu()
+    
+
+    ping()
+    parse()
+
+elif option == "3":
+    # Boolean to check input year
+    isYearOk = False
+    while isYearOk == False:
+        try:
+            inputyear = int(input("\nInput the year for searching movies: \nE.g. 2004\n"))
+            if 1900 > inputyear or inputyear > 2024:
+                print("\nInvalid value, select a year between 1900 and 2024.\n")
+            else:
+                isYearOk = True
+                intialyear = finalyear = inputyear
+
+        except ValueError:
+            print("\nYear should be a number.\n")
+            
+    formatYear()
+    genreMenu()
 
     ping()
     parse()
