@@ -5,6 +5,7 @@ Work in progress python script to pick movies based on user criteria. This produ
 
 ## Features
 
+- Bearer token validation
 - List recently popular movies
 - Specify year range, genre and rating range to search for movies
 
