@@ -1,14 +1,17 @@
 import requests
 
 # Variable to store json response from api
-output = "string"
+output = str
 
 # Variable to store list of genres
-gList = "string"
-
-selectedGenre = "string"
-
+gList = str
+selectedGenre = str
 lengthOfGlist = 0
+
+# Variable to store list of languages
+lList = str
+selectedLng = str
+lengthOfLlist = 0
 
 # Boolean & variable to validate bearer token
 isTokenOk = False
@@ -42,17 +45,50 @@ def reqGenre():
         print(e)
         raise
     
-    # Convert json to python dictionary
-    gList = gList.json()
+    
 
-# Function to add serial number to the genre list
-def addSn():
-    global lengthOfGlist
-    lengthOfGlist = len(gList['genres'])
+# Function to add serial number to genre list
+def addSn(length, list):
     i=0
-    while i < lengthOfGlist:
-        gList['genres'][i]['sn'] = i+1 # Adding 1 to first entry instead of 0
+    while i < length:
+        list['genres'][i]['sn'] = i+1 # Adding 1 to first entry instead of 0
         i+=1
+
+# Function to add serial number to languages list
+def addSnLng(length, list):
+    i=0
+    while i < length:
+        list[i]['sn'] = i+1 # Adding 1 to first entry instead of 0
+        i+=1
+
+# Function to fetch list of available languages
+def reqLng():
+    try:
+        url = "https://api.themoviedb.org/3/configuration/languages"
+
+        headers = {
+            "accept": "application/json",
+            "Authorization": "Bearer " + bearer_token
+        }
+
+        global lList
+        lList = requests.get(url, headers=headers)
+
+        global statusCode
+        statusCode = lList.status_code
+        print("\nStatus Code: "+str(statusCode))
+    except requests.exceptions.RequestException as e:
+        print(e)
+        raise
+    
+    # Convert json to python dictionary
+    lList = lList.json()
+    global lengthOfLlist
+    lengthOfLlist = len(lList)
+
+    # add serial number to the language list
+    addSnLng(lengthOfLlist, lList)
+
 
 
 # Ask user for tmdb bearer token
@@ -61,17 +97,23 @@ while isTokenOk == False:
     reqGenre()
     if statusCode == 200:
         isTokenOk = True
-        addSn()
         print("\nToken accepted.")
+
+        # Convert json to python dictionary
+        gList = gList.json()
+        lengthOfGlist = len(gList['genres'])
+
+        # Add serial number to the list
+        addSn(lengthOfGlist, gList)
     elif statusCode == 401:
-        print("\nUnauthorized, incorrect bearer token.")
+        print("\nUnauthorized, incorrect bearer token.\n")
 
 # Function to send a request to the api
 def ping():
     if option == "1":
         url = "https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&sort_by=popularity.desc"
     elif option == "2" or option == "3":
-        url = "https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&primary_release_date.gte="+intialyear+"&primary_release_date.lte="+finalyear+"&sort_by=popularity.desc&with_genres="+selectedGenre+"&vote_average.gte="+minRating+"&vote_average.lte="+maxRating
+        url = "https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&primary_release_date.gte="+intialyear+"&primary_release_date.lte="+finalyear+"&sort_by=popularity.desc&with_genres="+selectedGenre+"&vote_average.gte="+minRating+"&vote_average.lte="+maxRating+"&with_original_language="+selectedLng
     headers = {
         "accept": "application/json",
         "Authorization": "Bearer " + bearer_token
@@ -183,6 +225,21 @@ def ratingRange():
         except ValueError:
             print("\nRating should be a number.\n")
 
+# Function to provide language selection
+def langMenu():
+    global selectedLng
+
+    # Print list of languages to select from
+    i = 0
+    while i < lengthOfLlist:
+        print(str(lList[i]['sn'])+" "+lList[i]['english_name'])
+        i+=1
+
+    # Select Genre
+    selectedLng = int(input("\nSelect one language from the above list using its serial number.\n"))
+
+    # Parse the input to send to ping function's url
+    selectedLng = str(lList[selectedLng-1]['iso_639_1']) # "selectedLng-1" to adjust for dict starting from 0 
 
 # Provide user options
 option = input("\nWhat would you like to do ? \n\n1.Discover recently popular movies.\n2.Search for movies in a particular year range.\n3.Search for movies in a single year.\nSelect from options: 1, 2, 3\n")
@@ -193,12 +250,19 @@ if option == "1":
     parse()
 
 elif option == "2":
-# Ask for year range
+    # Ask for year range
     checkYears()
     formatYear()
+
+    # Ask for genre
     genreMenu()
+
+    # Ask for rating
     ratingRange()
-    
+
+    # Ask for languague
+    reqLng()
+    langMenu()
 
     ping()
     parse()
@@ -219,8 +283,16 @@ elif option == "3":
             print("\nYear should be a number.\n")
             
     formatYear()
+
+    # Ask for genre
     genreMenu()
+
+    # Ask for rating
     ratingRange()
+
+    # Ask for languague
+    reqLng()
+    langMenu()
 
 
     ping()
