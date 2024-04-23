@@ -10,6 +10,10 @@ selectedGenre = "string"
 
 lengthOfGlist = 0
 
+# Boolean & variable to validate bearer token
+isTokenOk = False
+statusCode = int
+
 # Variables to store year ranges
 intialyear = 1900
 finalyear = 2024
@@ -20,18 +24,29 @@ maxRating = 10
 
 # Function to fetch list of available genres
 def reqGenre():
-    url = "https://api.themoviedb.org/3/genre/movie/list?language=en"
+    try:
+        url = "https://api.themoviedb.org/3/genre/movie/list?language=en"
 
-    headers = {
-        "accept": "application/json",
-        "Authorization": "Bearer " + bearer_token
-    }
+        headers = {
+            "accept": "application/json",
+            "Authorization": "Bearer " + bearer_token
+        }
 
-    global gList
-    gList = requests.get(url, headers=headers)
+        global gList
+        gList = requests.get(url, headers=headers)
+
+        global statusCode
+        statusCode = gList.status_code
+        print("\nStatus Code: "+str(statusCode))
+    except requests.exceptions.RequestException as e:
+        print(e)
+        raise
+    
+    # Convert json to python dictionary
     gList = gList.json()
 
-    # adding serial number to the genres
+# Function to add serial number to the genre list
+def addSn():
     global lengthOfGlist
     lengthOfGlist = len(gList['genres'])
     i=0
@@ -41,9 +56,15 @@ def reqGenre():
 
 
 # Ask user for tmdb bearer token
-bearer_token = input("Enter your bearer token to start using the app:")
-print("Token accepted.")
-reqGenre()
+while isTokenOk == False:
+    bearer_token = input("Enter your bearer token to start using the app:\n")
+    reqGenre()
+    if statusCode == 200:
+        isTokenOk = True
+        addSn()
+        print("\nToken accepted.")
+    elif statusCode == 401:
+        print("\nUnauthorized, incorrect bearer token.")
 
 # Function to send a request to the api
 def ping():
