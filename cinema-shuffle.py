@@ -1,4 +1,5 @@
 import requests
+import json
 
 # Variable to store json response from api
 output = str
@@ -89,7 +90,26 @@ def reqLng():
     # add serial number to the language list
     addSnLng(lengthOfLlist, lList)
 
+# Function to use the config file
+def useConfig():
+    config = open('config.json')
+    config = json.load(config)
 
+    print("\nThis is the default config:\n"+str(config))
+
+    global initialyear
+    global finalyear
+    global selectedGenre
+    global minRating
+    global maxRating
+    global selectedLng
+    
+    initialyear = config['initialyear']
+    finalyear = config['finalyear']
+    selectedGenre = config['selectedGenre']
+    minRating = config['minRating']
+    maxRating = config['maxRating']
+    selectedLng = config['selectedLng']
 
 # Ask user for tmdb bearer token
 while isTokenOk == False:
@@ -120,6 +140,7 @@ def ping():
     }
     global output
     output = requests.get(url, headers=headers)
+    print(url)
     output = output.json()
     
 # Function to parse response from api
@@ -294,6 +315,14 @@ elif option == "3":
     reqLng()
     langMenu()
 
+
+    ping()
+    parse()
+
+elif option == "4":
+    # Use config file
+    useConfig()
+    formatYear()
 
     ping()
     parse()
