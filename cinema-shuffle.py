@@ -18,7 +18,7 @@ isTokenOk = False
 statusCode = int
 
 # Variables to store year ranges
-intialyear = 1900
+initialyear = 1900
 finalyear = 2024
 
 # Variables to store min and max rating
@@ -112,8 +112,8 @@ while isTokenOk == False:
 def ping():
     if option == "1":
         url = "https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&sort_by=popularity.desc"
-    elif option == "2" or option == "3":
-        url = "https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&primary_release_date.gte="+intialyear+"&primary_release_date.lte="+finalyear+"&sort_by=popularity.desc&with_genres="+selectedGenre+"&vote_average.gte="+minRating+"&vote_average.lte="+maxRating+"&with_original_language="+selectedLng
+    elif option == "2" or option == "3" or option == "4":
+        url = "https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&primary_release_date.gte="+initialyear+"&primary_release_date.lte="+finalyear+"&sort_by=popularity.desc&with_genres="+selectedGenre+"&vote_average.gte="+minRating+"&vote_average.lte="+maxRating+"&with_original_language="+selectedLng
     headers = {
         "accept": "application/json",
         "Authorization": "Bearer " + bearer_token
@@ -141,7 +141,7 @@ def parse():
 # Year checker
 def checkYears():
 
-    global intialyear
+    global initialyear
     global finalyear
 
     # Boolean to check years
@@ -150,8 +150,8 @@ def checkYears():
     
     while isIYearOk == False:
         try:
-            intialyear = int(input("\nInput initial year for searching movies: \nE.g. 2004\n"))
-            if 1900 > intialyear or intialyear > 2024:
+            initialyear = int(input("\nInput initial year for searching movies: \nE.g. 2004\n"))
+            if 1900 > initialyear or initialyear > 2024:
                 print("\nInvalid value, select a year between 1900 and 2024.\n")
             else:
                 isIYearOk = True
@@ -163,7 +163,7 @@ def checkYears():
             finalyear = int(input("\nInput final year for searching movies: \nE.g. 2010\n"))
             if 1900 > finalyear or finalyear > 2024:
                 print("\nInvalid value, select a year between 1900 and 2024.\n")
-            elif finalyear < intialyear:
+            elif finalyear < initialyear:
                 print("\nInvalid value, final year can't be smaller than initial year.\n")
             else:
                 isFYearOk = True
@@ -172,10 +172,10 @@ def checkYears():
 
 # Function to format the input years from user
 def formatYear():
-    global intialyear
+    global initialyear
     global finalyear
 
-    intialyear = str(intialyear)+"-01-01"
+    initialyear = str(initialyear)+"-01-01"
     finalyear = str(finalyear)+"-12-31"
 
 # Function to provide genre selection
@@ -242,7 +242,7 @@ def langMenu():
     selectedLng = str(lList[selectedLng-1]['iso_639_1']) # "selectedLng-1" to adjust for dict starting from 0 
 
 # Provide user options
-option = input("\nWhat would you like to do ? \n\n1.Discover recently popular movies.\n2.Search for movies in a particular year range.\n3.Search for movies in a single year.\nSelect from options: 1, 2, 3\n")
+option = input("\nWhat would you like to do ? \n\n1.Discover recently popular movies.\n2.Search for movies in a particular year range.\n3.Search for movies in a single year.\n4.Use default config.\nSelect from options: 1, 2, 3, 4\n")
 
 # Check user input
 if option == "1":
@@ -277,7 +277,7 @@ elif option == "3":
                 print("\nInvalid value, select a year between 1900 and 2024.\n")
             else:
                 isYearOk = True
-                intialyear = finalyear = inputyear
+                initialyear = finalyear = inputyear
 
         except ValueError:
             print("\nYear should be a number.\n")
