@@ -92,10 +92,12 @@ def reqLng():
 
 # Function to use the config file
 def useConfig():
-    config = open('config.json')
-    config = json.load(config)
 
-    print("\nThis is the default config:\n"+str(config))
+    with open('config.json', 'r') as file:
+        config = open('config.json')
+        config = json.load(config)
+
+        print("\nThis is the default config:\n"+str(config))
 
     global initialyear
     global finalyear
@@ -110,6 +112,39 @@ def useConfig():
     minRating = config['minRating']
     maxRating = config['maxRating']
     selectedLng = config['selectedLng']
+
+# Function to edit the config file
+def editConfig():
+
+    with open('config.json', 'r') as file:
+        config = open('config.json')
+        configData = json.load(config)
+
+    print("\nThis is the default config:\n"+str(configData))
+
+    checkYears()
+    configData['initialyear'] = str(initialyear)
+    configData['finalyear'] = str(finalyear)
+
+    # Ask for genre
+    genreMenu()
+    configData['selectedGenre'] = selectedGenre
+
+    # Ask for rating
+    ratingRange()
+    configData['minRating'] = minRating
+    configData['maxRating'] = maxRating
+
+    # Ask for languague
+    reqLng()
+    langMenu()
+    configData['selectedLng'] = selectedLng
+
+    print("\nThis is the final config:\n"+str(configData))
+
+    with open('config.json', 'w') as file:
+        json.dump(configData, file, indent=4)
+
 
 # Ask user for tmdb bearer token
 while isTokenOk == False:
@@ -140,7 +175,6 @@ def ping():
     }
     global output
     output = requests.get(url, headers=headers)
-    print(url)
     output = output.json()
     
 # Function to parse response from api
@@ -148,7 +182,7 @@ def parse():
     print("\nList of movies:\n")
 
     global output
-    # output = json.loads(output)
+
     lengthOfResults = len(output['results'])
 
     i = 0
@@ -263,7 +297,7 @@ def langMenu():
     selectedLng = str(lList[selectedLng-1]['iso_639_1']) # "selectedLng-1" to adjust for dict starting from 0 
 
 # Provide user options
-option = input("\nWhat would you like to do ? \n\n1.Discover recently popular movies.\n2.Search for movies in a particular year range.\n3.Search for movies in a single year.\n4.Use default config.\nSelect from options: 1, 2, 3, 4\n")
+option = input("\nWhat would you like to do ? \n\n1.Discover recently popular movies.\n2.Search for movies in a particular year range.\n3.Search for movies in a single year.\n4.Use default config.\n5.Edit config file.\nSelect from options: 1, 2, 3, 4, 5\n")
 
 # Check user input
 if option == "1":
@@ -326,6 +360,10 @@ elif option == "4":
 
     ping()
     parse()
+
+elif option == "5":
+    # Edit config file
+    editConfig()
 
 else:
     print("Improper input")
