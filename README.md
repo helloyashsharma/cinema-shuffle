@@ -8,7 +8,7 @@ Work in progress python script to pick movies based on user criteria. This produ
 - Bearer token validation
 - List recently popular movies
 - Specify year range, genre, rating range and language to search for movies
-- Use local config file for movie search parameters
+- Use and edit local config file for movie search parameters
 
 
 ## Requirements
