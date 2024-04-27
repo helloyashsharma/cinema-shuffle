@@ -166,7 +166,7 @@ while isTokenOk == False:
 # Function to send a request to the api
 def ping():
     if option == "1":
-        url = "https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&sort_by=popularity.desc"
+        url = "https://api.themoviedb.org/3/movie/upcoming?language=en-US&page=1"
     elif option == "2" or option == "3" or option == "4":
         url = "https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&primary_release_date.gte="+initialyear+"&primary_release_date.lte="+finalyear+"&sort_by=popularity.desc&with_genres="+selectedGenre+"&vote_average.gte="+minRating+"&vote_average.lte="+maxRating+"&with_original_language="+selectedLng
     headers = {
@@ -297,7 +297,7 @@ def langMenu():
     selectedLng = str(lList[selectedLng-1]['iso_639_1']) # "selectedLng-1" to adjust for dict starting from 0 
 
 # Provide user options
-option = input("\nWhat would you like to do ? \n\n1.Discover recently popular movies.\n2.Search for movies in a particular year range.\n3.Search for movies in a single year.\n4.Use default config.\n5.Edit config file.\nSelect from options: 1, 2, 3, 4, 5\n")
+option = input("\nWhat would you like to do ? \n\n1.Discover upcoming movies.\n2.Search for movies in a particular year range.\n3.Search for movies in a single year.\n4.Use default config.\n5.Edit config file.\nSelect from options: 1, 2, 3, 4, 5\n")
 
 # Check user input
 if option == "1":
