@@ -1,8 +1,8 @@
 {
-    "initialyear" : "2024",
-    "finalyear" : "2024",
-    "selectedGenre" : "28",
-    "minRating" : "7",
-    "maxRating" : "10",
-    "selectedLng" : "en"
+    "initialyear": "2004",
+    "finalyear": "2004",
+    "selectedGenre": "53",
+    "minRating": "4",
+    "maxRating": "9",
+    "selectedLng": "en"
 }
