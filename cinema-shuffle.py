@@ -244,10 +244,18 @@ def genreMenu():
         i+=1
 
     # Select Genre
-    selectedSn = int(input("\nSelect one genre from the above list using its serial number.\n"))
+    selectedSn = input("\nSelect one or more genres from the above list using its serial number separated with commas.\nFor e.g. 3,21\n").replace(" ", "").replace(",", " ")
+    selectedSn = selectedSn.split() # Convert to list for interating below
 
     # Parse the input to send to ping function's url
-    selectedGenre = str(gList["genres"][selectedSn-1]['id']) # "selectedSn-1" to adjust for dict starting from 0
+    selectedGenre = ""
+    for i in selectedSn: # Going through all the selected genres
+        selectedG = str(gList["genres"][int(i)-1]['id']) # "int(i)-1" to adjust for dict starting from 0
+        selectedGenre += selectedG+"%2C" # Adding the "%2C" between the selected genres to act as AND
+        
+    selectedGenre = selectedGenre[:-3] # Removing any trailing "%2C"
+
+
 
 # Function to provide rating range selection
 def ratingRange():
