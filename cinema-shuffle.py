@@ -299,7 +299,10 @@ def langMenu():
         i+=1
 
     # Select Genre
-    selectedLng = int(input("\nSelect one language from the above list using its serial number.\n"))
+    try:
+        selectedLng = int(input("\nSelect one language from the above list using its serial number.\n"))
+    except ValueError:
+        print("\nEntered value must be a number.\n")
 
     # Parse the input to send to ping function's url
     selectedLng = str(lList[selectedLng-1]['iso_639_1']) # "selectedLng-1" to adjust for dict starting from 0 
