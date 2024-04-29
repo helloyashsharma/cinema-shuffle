@@ -304,6 +304,37 @@ def langMenu():
     # Parse the input to send to ping function's url
     selectedLng = str(lList[selectedLng-1]['iso_639_1']) # "selectedLng-1" to adjust for dict starting from 0 
 
+# Function to display results based on popularity
+def popMenu():
+
+    global output
+
+    # Sorting the results key based on popularity
+    sortedRes = sorted(output['results'], key=lambda x: x['popularity'], reverse=True)
+
+    # Adding the sorted values back to the original json
+    output['results'] = sortedRes
+    
+    # Take input from user
+    try:
+        selectedPop = int(input("\nFilter movies based on Popularity\n1. Very Popular\n2. Somewhat Popular\n3. Least Popular\nSelect from options: 1, 2, 3\n"))
+    except ValueError:
+        print("\nEntered value must be a number.\n")
+    
+    lengthOfResults = len(output['results'])
+    splice = int(lengthOfResults/3) # Split by 3 based on popularity after being sorted
+
+    # If user selects one then they want the first 1/3rd movies since it has been sorted based on desc popularity 
+    if selectedPop == 1:
+        i = lengthOfResults - 1
+        while i >= 0:
+            if i >= splice:
+                del output['results'][i]
+            i-=1
+    # print("Shortened: "+str(output))
+
+
+
 # Provide user options
 option = input("\nWhat would you like to do ? \n\n1.Discover upcoming movies.\n2.Search for movies in a particular year range.\n3.Search for movies in a single year.\n4.Use default config.\n5.Edit config file.\nSelect from options: 1, 2, 3, 4, 5\n")
 
@@ -328,6 +359,10 @@ elif option == "2":
     langMenu()
 
     ping()
+
+    # Filter based on popularity
+    popMenu()
+
     parse()
 
 elif option == "3":
@@ -359,6 +394,10 @@ elif option == "3":
 
 
     ping()
+
+    # Filter based on popularity
+    popMenu()
+
     parse()
 
 elif option == "4":
@@ -367,6 +406,10 @@ elif option == "4":
     formatYear()
 
     ping()
+
+    # Filter based on popularity
+    popMenu()
+
     parse()
 
 elif option == "5":
