@@ -326,16 +326,12 @@ def popMenu():
     
     lengthOfResults = len(output['results'])
     splice = int(lengthOfResults/3) # Split by 3 based on popularity after being sorted
-
+    
     # If user selects one then they want the first 1/3rd movies since it has been sorted based on desc popularity 
     if selectedPop == 1:
-        i = lengthOfResults - 1
-        while i >= 0:
-            if i >= splice:
-                del output['results'][i]
-            i-=1
-    # print("Shortened: "+str(output))
-
+        spliced = output['results'][:splice] # Using list splicing to only keep the first splice elements
+        output['results'] = spliced
+    
 
 
 # Provide user options
