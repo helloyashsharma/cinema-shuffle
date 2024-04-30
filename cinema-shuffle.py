@@ -331,7 +331,9 @@ def popMenu():
     if selectedPop == 1:
         spliced = output['results'][:splice] # Using list splicing to only keep the first splice elements
         output['results'] = spliced
-    
+    elif selectedPop == 2:
+        spliced = output['results'][splice:splice*2] # Using list splicing to only keep the middle splice elements
+        output['results'] = spliced
 
 
 # Provide user options
