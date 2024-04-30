@@ -329,10 +329,13 @@ def popMenu():
     
     # If user selects one then they want the first 1/3rd movies since it has been sorted based on desc popularity 
     if selectedPop == 1:
-        spliced = output['results'][:splice] # Using list splicing to only keep the first splice elements
+        spliced = output['results'][:splice] # Using list splicing to only keep the first 1/3 rd splice elements
         output['results'] = spliced
     elif selectedPop == 2:
-        spliced = output['results'][splice:splice*2] # Using list splicing to only keep the middle splice elements
+        spliced = output['results'][splice:splice*2] # Using list splicing to only keep the middle 1/3rd splice elements
+        output['results'] = spliced
+    elif selectedPop == 3:
+        spliced = output['results'][splice*2:lengthOfResults] # Using list splicing to only keep the last 1/3rd splice elements
         output['results'] = spliced
 
 
