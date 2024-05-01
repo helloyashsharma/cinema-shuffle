@@ -26,6 +26,12 @@ finalyear = 2024
 minRating = 0
 maxRating = 10
 
+# Boolean to check if config file is being used
+configUsed = False
+
+# Variable for selected popularity
+selectedPop = int
+
 # Function to fetch list of available genres
 def reqGenre():
     try:
@@ -92,6 +98,9 @@ def reqLng():
 
 # Function to use the config file
 def useConfig():
+    
+    global configUsed
+    configUsed = True
 
     with open('config.json', 'r') as file:
         config = open('config.json')
@@ -105,6 +114,7 @@ def useConfig():
     global minRating
     global maxRating
     global selectedLng
+    global selectedPop
     
     initialyear = config['initialyear']
     finalyear = config['finalyear']
@@ -112,6 +122,7 @@ def useConfig():
     minRating = config['minRating']
     maxRating = config['maxRating']
     selectedLng = config['selectedLng']
+    selectedPop = config['popularity']
 
 # Function to edit the config file
 def editConfig():
@@ -311,6 +322,8 @@ def langMenu():
 def popMenu():
 
     global output
+    global configUsed
+    global selectedPop
 
     # Sorting the results key based on popularity
     sortedRes = sorted(output['results'], key=lambda x: x['popularity'], reverse=True)
@@ -319,10 +332,11 @@ def popMenu():
     output['results'] = sortedRes
     
     # Take input from user
-    try:
-        selectedPop = int(input("\nFilter movies based on Popularity\n1. Very Popular\n2. Somewhat Popular\n3. Least Popular\nSelect from options: 1, 2, 3\n"))
-    except ValueError:
-        print("\nEntered value must be a number.\n")
+    if configUsed == False: # Only taking input if the config file is not being used
+        try:
+            selectedPop = int(input("\nFilter movies based on Popularity\n1. Very Popular\n2. Somewhat Popular\n3. Least Popular\nSelect from options: 1, 2, 3\n"))
+        except ValueError:
+            print("\nEntered value must be a number.\n")
     
     lengthOfResults = len(output['results'])
     splice = int(lengthOfResults/3) # Split by 3 based on popularity after being sorted
