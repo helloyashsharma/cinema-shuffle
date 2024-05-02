@@ -151,11 +151,17 @@ def editConfig():
     langMenu()
     configData['selectedLng'] = selectedLng
 
+    # Ask for popularity
+    try:
+        selectedPop = int(input("\nFilter movies based on Popularity\n1. Very Popular\n2. Somewhat Popular\n3. Least Popular\nSelect from options: 1, 2, 3\n"))
+        configData['popularity'] = selectedPop
+    except ValueError:
+        print("\nEntered value must be a number.\n")
+
     print("\nThis is the final config:\n"+str(configData))
 
     with open('config.json', 'w') as file:
         json.dump(configData, file, indent=4)
-
 
 # Ask user for tmdb bearer token
 while isTokenOk == False:
@@ -265,8 +271,6 @@ def genreMenu():
         selectedGenre += selectedG+"%2C" # Adding the "%2C" between the selected genres to act as AND
         
     selectedGenre = selectedGenre[:-3] # Removing any trailing "%2C"
-
-
 
 # Function to provide rating range selection
 def ratingRange():
