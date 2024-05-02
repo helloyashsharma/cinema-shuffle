@@ -1,10 +1,10 @@
 {
-    "initialyear": "2004",
-    "finalyear": "2004",
-    "selectedGenre": "53",
+    "initialyear": "2001",
+    "finalyear": "2008",
+    "selectedGenre": "28",
     "minRating": "4",
-    "maxRating": "9",
+    "maxRating": "8",
     "selectedLng": "en",
-    "popularity": 1,
-    "adult": true
+    "popularity": 3,
+    "adult": "true"
 }
