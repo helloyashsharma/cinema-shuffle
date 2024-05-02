@@ -32,6 +32,9 @@ configUsed = False
 # Variable for selected popularity
 selectedPop = int
 
+# Variable for selected adult rating
+isAdult = "true"
+
 # Function to fetch list of available genres
 def reqGenre():
     try:
@@ -115,6 +118,7 @@ def useConfig():
     global maxRating
     global selectedLng
     global selectedPop
+    global isAdult
     
     initialyear = config['initialyear']
     finalyear = config['finalyear']
@@ -123,6 +127,7 @@ def useConfig():
     maxRating = config['maxRating']
     selectedLng = config['selectedLng']
     selectedPop = config['popularity']
+    isAdult = config['adult']
 
 # Function to edit the config file
 def editConfig():
@@ -158,6 +163,16 @@ def editConfig():
     except ValueError:
         print("\nEntered value must be a number.\n")
 
+    # Ask if adult or not
+    try:
+        isItAdult = int(input("\nFilter movies based on adult rating\n1. Is Adult\n2. Not Adult\nSelect from options: 1, 2\n"))
+        if isItAdult == 1:
+            configData['adult'] = "true"
+        elif isItAdult == 2:
+            configData['adult'] = "false"
+    except ValueError:
+        print("\nEntered value must be a number.\n")
+
     print("\nThis is the final config:\n"+str(configData))
 
     with open('config.json', 'w') as file:
@@ -185,7 +200,7 @@ def ping():
     if option == "1":
         url = "https://api.themoviedb.org/3/movie/upcoming?language=en-US&page=1"
     elif option == "2" or option == "3" or option == "4":
-        url = "https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&primary_release_date.gte="+initialyear+"&primary_release_date.lte="+finalyear+"&sort_by=popularity.desc&with_genres="+selectedGenre+"&vote_average.gte="+minRating+"&vote_average.lte="+maxRating+"&with_original_language="+selectedLng
+        url = "https://api.themoviedb.org/3/discover/movie?include_adult="+isAdult+"&include_video=false&language=en-US&primary_release_date.gte="+initialyear+"&primary_release_date.lte="+finalyear+"&sort_by=popularity.desc&with_genres="+selectedGenre+"&vote_average.gte="+minRating+"&vote_average.lte="+maxRating+"&with_original_language="+selectedLng
     headers = {
         "accept": "application/json",
         "Authorization": "Bearer " + bearer_token
