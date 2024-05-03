@@ -1,5 +1,6 @@
 import requests
 import json
+import random
 
 # Variable to store json response from api
 output = str
@@ -55,8 +56,6 @@ def reqGenre():
         print(e)
         raise
     
-    
-
 # Function to add serial number to genre list
 def addSn(length, list):
     i=0
@@ -199,7 +198,7 @@ while isTokenOk == False:
 def ping():
     if option == "1":
         url = "https://api.themoviedb.org/3/movie/upcoming?language=en-US&page=1"
-    elif option == "2" or option == "3" or option == "4":
+    elif option == "2" or option == "3" or option == "4" or option == "6":
         url = "https://api.themoviedb.org/3/discover/movie?include_adult="+isAdult+"&include_video=false&language=en-US&primary_release_date.gte="+initialyear+"&primary_release_date.lte="+finalyear+"&sort_by=popularity.desc&with_genres="+selectedGenre+"&vote_average.gte="+minRating+"&vote_average.lte="+maxRating+"&with_original_language="+selectedLng
     headers = {
         "accept": "application/json",
@@ -373,7 +372,7 @@ def popMenu():
 
 
 # Provide user options
-option = input("\nWhat would you like to do ? \n\n1.Discover upcoming movies.\n2.Search for movies in a particular year range.\n3.Search for movies in a single year.\n4.Use default config.\n5.Edit config file.\nSelect from options: 1, 2, 3, 4, 5\n")
+option = input("\nWhat would you like to do ? \n\n1.Discover upcoming movies.\n2.Search for movies in a particular year range.\n3.Search for movies in a single year.\n4.Use default config.\n5.Edit config file.\n6.Pick a random movie.\nSelect from options: 1, 2, 3, 4, 5, 6\n")
 
 # Check user input
 if option == "1":
@@ -452,6 +451,20 @@ elif option == "4":
 elif option == "5":
     # Edit config file
     editConfig()
+
+elif option == "6":
+    # Use config file
+    useConfig()
+    formatYear()
+
+    ping()
+
+    # Randomly choose one movie
+    output['results'] = [random.choice(output['results'])]
+    
+    print(str(output))
+
+    parse()
 
 else:
     print("Improper input")
