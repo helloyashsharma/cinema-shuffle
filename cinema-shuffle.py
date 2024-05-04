@@ -462,8 +462,6 @@ elif option == "6":
     # Randomly choose one movie
     output['results'] = [random.choice(output['results'])]
     
-    print(str(output))
-
     parse()
 
 else:
