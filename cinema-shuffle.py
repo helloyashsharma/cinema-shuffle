@@ -376,7 +376,10 @@ option = input("\nWhat would you like to do ? \n\n1.Discover upcoming movies.\n2
 
 # Check user input
 if option == "1":
+    # Ping API
     ping()
+
+    # Parse response
     parse()
 
 elif option == "2":
@@ -394,11 +397,13 @@ elif option == "2":
     reqLng()
     langMenu()
 
+    # Ping API
     ping()
 
     # Filter based on popularity
     popMenu()
 
+    # Parse response
     parse()
 
 elif option == "3":
@@ -428,12 +433,13 @@ elif option == "3":
     reqLng()
     langMenu()
 
-
+    # Ping API
     ping()
 
     # Filter based on popularity
     popMenu()
 
+    # Parse response
     parse()
 
 elif option == "4":
@@ -441,11 +447,13 @@ elif option == "4":
     useConfig()
     formatYear()
 
+    # Ping API
     ping()
 
     # Filter based on popularity
     popMenu()
 
+    # Parse response
     parse()
 
 elif option == "5":
@@ -457,11 +465,13 @@ elif option == "6":
     useConfig()
     formatYear()
 
+    # Ping API
     ping()
 
     # Randomly choose one movie
     output['results'] = [random.choice(output['results'])]
     
+    # Parse response
     parse()
 
 else:
