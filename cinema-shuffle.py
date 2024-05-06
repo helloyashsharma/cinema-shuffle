@@ -1,6 +1,7 @@
 import requests
 import json
 import random
+import tkinter
 
 # Variable to store json response from api
 output = str
@@ -177,6 +178,13 @@ def editConfig():
     with open('config.json', 'w') as file:
         json.dump(configData, file, indent=4)
 
+# Tesing tkinter
+def window():
+    root = tkinter.Tk()
+    root.title("Test Window")
+    root.geometry("500x500")
+    root.mainloop()
+
 # Ask user for tmdb bearer token
 while isTokenOk == False:
     bearer_token = input("Enter your bearer token to start using the app:\n")
@@ -191,6 +199,9 @@ while isTokenOk == False:
 
         # Add serial number to the list
         addSn(lengthOfGlist, gList)
+
+        # Test window
+        window()
     elif statusCode == 401:
         print("\nUnauthorized, incorrect bearer token.\n")
 
