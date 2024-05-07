@@ -2,7 +2,7 @@ import requests
 import json
 import random
 import tkinter
-
+from tkinter import *
 # Variable to store json response from api
 output = str
 
@@ -183,6 +183,11 @@ def window():
     root = tkinter.Tk()
     root.title("Test Window")
     root.geometry("500x500")
+
+    mainframe = tkinter.Frame(root)
+    mainframe.grid(column=0, row=0, sticky=(N, W, E, S))
+    root.columnconfigure(0, weight=1)
+    root.rowconfigure(0, weight=1)
     root.mainloop()
 
 # Ask user for tmdb bearer token
