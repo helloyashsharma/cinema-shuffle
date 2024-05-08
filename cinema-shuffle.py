@@ -186,8 +186,11 @@ def GUI():
     window.title('CinemaShuffle')
     window.geometry('800x500')
 
+    # Font
+    ctk.FontManager.load_font('fonts/Merienda/Merienda-VariableFont_wght.ttf')
+
     # Label
-    mainLabel = ctk.CTkLabel(master=window, text='Welcome to CinemaShuffle')
+    mainLabel = ctk.CTkLabel(master=window, text='Welcome to CinemaShuffle', font=('Merienda', 28))
     mainLabel.pack()
 
     window.mainloop()
