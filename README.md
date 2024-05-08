@@ -36,7 +36,7 @@ Go to the project directory
 Install dependencies
 
 ```python
-  pip install requests
+  pip install -r requirements.txt
 ```
 
 Run the program
