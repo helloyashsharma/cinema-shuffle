@@ -1,7 +1,7 @@
 import requests
 import json
 import random
-import tkinter
+import tkinter as tk
 from tkinter import *
 # Variable to store json response from api
 output = str
@@ -179,16 +179,16 @@ def editConfig():
         json.dump(configData, file, indent=4)
 
 # Tesing tkinter
-def window():
-    root = tkinter.Tk()
-    root.title("Test Window")
-    root.geometry("500x500")
+def GUI():
+    # Window
+    window = tk.Tk()
+    window.title('CinemaShuffle')
+    window.geometry('800x500')
+    window.mainloop()
+    
 
-    mainframe = tkinter.Frame(root)
-    mainframe.grid(column=0, row=0, sticky=(N, W, E, S))
-    root.columnconfigure(0, weight=1)
-    root.rowconfigure(0, weight=1)
-    root.mainloop()
+# Test window
+GUI()
 
 # Ask user for tmdb bearer token
 while isTokenOk == False:
@@ -205,8 +205,6 @@ while isTokenOk == False:
         # Add serial number to the list
         addSn(lengthOfGlist, gList)
 
-        # Test window
-        window()
     elif statusCode == 401:
         print("\nUnauthorized, incorrect bearer token.\n")
 
