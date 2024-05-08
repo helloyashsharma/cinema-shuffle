@@ -1,8 +1,8 @@
 import requests
 import json
 import random
-import tkinter as tk
-from tkinter import *
+import customtkinter as ctk
+
 # Variable to store json response from api
 output = str
 
@@ -180,12 +180,17 @@ def editConfig():
 
 # Tesing tkinter
 def GUI():
+    
     # Window
-    window = tk.Tk()
+    window = ctk.CTk()
     window.title('CinemaShuffle')
     window.geometry('800x500')
+
+    # Label
+    mainLabel = ctk.CTkLabel(master=window, text='Welcome to CinemaShuffle')
+    mainLabel.pack()
+
     window.mainloop()
-    
 
 # Test window
 GUI()
