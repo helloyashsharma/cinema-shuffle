@@ -11,6 +11,7 @@ Work in progress python script to pick movies based on user criteria. This produ
 - Filter movies based on popularity
 - Pick a random movie
 - Use and edit local config file for movie search parameters
+- GUI using CustomTkinter
 
 
 ## Requirements
