@@ -193,6 +193,14 @@ def GUI():
     mainLabel = ctk.CTkLabel(master=window, text='Welcome to CinemaShuffle', font=('Merienda', 28))
     mainLabel.pack()
 
+    # Input
+    frame1 = ctk.CTkFrame(master=window)
+    input1 = ctk.CTkEntry(master=frame1)
+    button1 = ctk.CTkButton(master=frame1, text='Check')
+    input1.pack(side = 'left', padx = 10)
+    button1.pack(side = 'left')
+    frame1.pack(pady = 10)
+
     window.mainloop()
 
 # Test window
