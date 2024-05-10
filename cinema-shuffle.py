@@ -6,6 +6,9 @@ import customtkinter as ctk
 # Variable to store bearer token from user
 bearer_token = str
 
+# Variable for output
+outputLabelString = str
+
 # Variable to store json response from api
 output = str
 
@@ -43,6 +46,7 @@ isAdult = "true"
 # Function to fetch list of available genres
 def reqGenre():
     global bearer_token
+    global outputLabelString
     bearer_token = bearer_token.get() # Convert StringVar to string
 
     try:
@@ -58,6 +62,7 @@ def reqGenre():
 
         global statusCode
         statusCode = gList.status_code
+        outputLabelString.set(statusCode)
         print("\nStatus Code: "+str(statusCode))
 
     except requests.exceptions.RequestException as e:
@@ -188,7 +193,8 @@ def editConfig():
 # Tesing tkinter
 def GUI():
     global bearer_token
-    
+    global outputLabelString
+
     # Window
     window = ctk.CTk()
     window.title('CinemaShuffle')
@@ -206,11 +212,16 @@ def GUI():
 
     frame1 = ctk.CTkFrame(master=window)
     input1 = ctk.CTkEntry(master=frame1, textvariable=bearer_token)
-    button1 = ctk.CTkButton(master=frame1, text='Check', command=reqGenre)
+    button1 = ctk.CTkButton(master=frame1, text='Check', font=('Merienda', 16), command=reqGenre)
 
     input1.pack(side = 'left', padx = 10)
     button1.pack(side = 'left')
     frame1.pack(pady = 10)
+
+    # Output
+    outputLabelString = ctk.StringVar()
+    outputLabel = ctk.CTkLabel(master=window, text='Output', font=('Merienda', 24), textvariable=outputLabelString)
+    outputLabel.pack()
 
     window.mainloop()
 
