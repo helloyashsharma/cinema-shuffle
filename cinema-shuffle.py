@@ -517,8 +517,30 @@ elif option == "6":
     useConfig()
     formatYear()
 
+    pageNum = "1"
+    
     # Ping API
-    ping()
+    url = "https://api.themoviedb.org/3/discover/movie?include_adult="+isAdult+"&include_video=false&language=en-US&primary_release_date.gte="+initialyear+"&primary_release_date.lte="+finalyear+"&with_genres="+selectedGenre+"&vote_average.gte="+minRating+"&vote_average.lte="+maxRating+"&with_original_language="+selectedLng+"&page="+pageNum
+    headers = {
+        "accept": "application/json",
+        "Authorization": "Bearer " + bearer_token
+    }
+    output = requests.get(url, headers=headers)
+    output = output.json()
+
+    numofPages = output['total_pages']
+    if numofPages > 1:
+        pageNum = str(random.randint(0,numofPages))
+
+    # Ping API again this time with a random page number to further randomize the picked movie
+    
+    url = "https://api.themoviedb.org/3/discover/movie?include_adult="+isAdult+"&include_video=false&language=en-US&primary_release_date.gte="+initialyear+"&primary_release_date.lte="+finalyear+"&with_genres="+selectedGenre+"&vote_average.gte="+minRating+"&vote_average.lte="+maxRating+"&with_original_language="+selectedLng+"&page="+pageNum
+    headers = {
+        "accept": "application/json",
+        "Authorization": "Bearer " + bearer_token
+    }
+    output = requests.get(url, headers=headers)
+    output = output.json()
 
     # Randomly choose one movie
     output['results'] = [random.choice(output['results'])]
