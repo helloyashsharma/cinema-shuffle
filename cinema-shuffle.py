@@ -47,6 +47,10 @@ isAdult = "true"
 def reqGenre():
     global bearer_token
     global outputLabelString
+    global isTokenOk
+    global gList
+    global statusCode
+
     bearer_token = bearer_token.get() # Convert StringVar to string
 
     try:
@@ -56,14 +60,27 @@ def reqGenre():
             "accept": "application/json",
             "Authorization": "Bearer " + bearer_token
         }
-
-        global gList
+        
         gList = requests.get(url, headers=headers)
-
-        global statusCode
         statusCode = gList.status_code
-        outputLabelString.set(statusCode)
-        print("\nStatus Code: "+str(statusCode))
+        
+        # Update Output Label
+        if statusCode == 200:
+            isTokenOk = True
+            outputLabelString.set("Token Accepted!")
+
+            # Convert json to python dictionary
+            gList = gList.json()
+            lengthOfGlist = len(gList['genres'])
+
+            # Add serial number to the list
+            addSn(lengthOfGlist, gList)
+
+        elif statusCode == 401:
+            outputLabelString.set("Unauthorized, incorrect bearer token.")
+
+        else:
+            outputLabelString.set("Unknown error occurred.")
 
     except requests.exceptions.RequestException as e:
         print(e)
@@ -207,6 +224,7 @@ def GUI():
     mainLabel = ctk.CTkLabel(master=window, text='Welcome to CinemaShuffle', font=('Merienda', 28))
     mainLabel.pack()
 
+    # Ask user for tmdb bearer token
     # Input
     bearer_token = ctk.StringVar()
 
@@ -227,24 +245,6 @@ def GUI():
 
 # Test window
 GUI()
-
-# Ask user for tmdb bearer token
-while isTokenOk == False:
-    bearer_token = input("Enter your bearer token to start using the app:\n")
-    reqGenre()
-    if statusCode == 200:
-        isTokenOk = True
-        print("\nToken accepted.")
-
-        # Convert json to python dictionary
-        gList = gList.json()
-        lengthOfGlist = len(gList['genres'])
-
-        # Add serial number to the list
-        addSn(lengthOfGlist, gList)
-
-    elif statusCode == 401:
-        print("\nUnauthorized, incorrect bearer token.\n")
 
 # Function to send a request to the api
 def ping():
