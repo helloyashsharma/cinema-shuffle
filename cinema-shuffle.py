@@ -6,6 +6,9 @@ import customtkinter as ctk
 # Variable to store bearer token from user
 bearer_token = str
 
+# Variable for page number
+pageNum = "1"
+
 # Variable for output
 outputLabelString = str
 
@@ -248,10 +251,12 @@ GUI()
 
 # Function to send a request to the api
 def ping():
+    global pageNum
+
     if option == "1":
         url = "https://api.themoviedb.org/3/movie/upcoming?language=en-US&page=1"
     elif option == "2" or option == "3" or option == "4" or option == "6":
-        url = "https://api.themoviedb.org/3/discover/movie?include_adult="+isAdult+"&include_video=false&language=en-US&primary_release_date.gte="+initialyear+"&primary_release_date.lte="+finalyear+"&sort_by=popularity.desc&with_genres="+selectedGenre+"&vote_average.gte="+minRating+"&vote_average.lte="+maxRating+"&with_original_language="+selectedLng
+        url = "https://api.themoviedb.org/3/discover/movie?include_adult="+isAdult+"&include_video=false&language=en-US&primary_release_date.gte="+initialyear+"&primary_release_date.lte="+finalyear+"&sort_by=popularity.desc&with_genres="+selectedGenre+"&vote_average.gte="+minRating+"&vote_average.lte="+maxRating+"&with_original_language="+selectedLng+"&page="+pageNum
     headers = {
         "accept": "application/json",
         "Authorization": "Bearer " + bearer_token
@@ -517,16 +522,8 @@ elif option == "6":
     useConfig()
     formatYear()
 
-    pageNum = "1"
-    
     # Ping API
-    url = "https://api.themoviedb.org/3/discover/movie?include_adult="+isAdult+"&include_video=false&language=en-US&primary_release_date.gte="+initialyear+"&primary_release_date.lte="+finalyear+"&with_genres="+selectedGenre+"&vote_average.gte="+minRating+"&vote_average.lte="+maxRating+"&with_original_language="+selectedLng+"&page="+pageNum
-    headers = {
-        "accept": "application/json",
-        "Authorization": "Bearer " + bearer_token
-    }
-    output = requests.get(url, headers=headers)
-    output = output.json()
+    ping()
 
     numofPages = output['total_pages']
     if numofPages > 1:
@@ -534,13 +531,7 @@ elif option == "6":
 
     # Ping API again this time with a random page number to further randomize the picked movie
     
-    url = "https://api.themoviedb.org/3/discover/movie?include_adult="+isAdult+"&include_video=false&language=en-US&primary_release_date.gte="+initialyear+"&primary_release_date.lte="+finalyear+"&with_genres="+selectedGenre+"&vote_average.gte="+minRating+"&vote_average.lte="+maxRating+"&with_original_language="+selectedLng+"&page="+pageNum
-    headers = {
-        "accept": "application/json",
-        "Authorization": "Bearer " + bearer_token
-    }
-    output = requests.get(url, headers=headers)
-    output = output.json()
+    ping()
 
     # Randomly choose one movie
     output['results'] = [random.choice(output['results'])]
