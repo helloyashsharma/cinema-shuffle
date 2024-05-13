@@ -47,7 +47,7 @@ selectedPop = int
 isAdult = "true"
 
 # Function to fetch list of available genres
-def reqGenre():
+def reqGenre(frame):
     global bearer_token
     global outputLabelString
     global isTokenOk
@@ -78,6 +78,9 @@ def reqGenre():
 
             # Add serial number to the list
             addSn(lengthOfGlist, gList)
+
+            # Clear the frame
+            clearFrame(frame)
 
         elif statusCode == 401:
             outputLabelString.set("Unauthorized, incorrect bearer token.")
@@ -233,7 +236,7 @@ def GUI():
 
     frame1 = ctk.CTkFrame(master=window)
     input1 = ctk.CTkEntry(master=frame1, textvariable=bearer_token)
-    button1 = ctk.CTkButton(master=frame1, text='Check', font=('Merienda', 16), command=reqGenre)
+    button1 = ctk.CTkButton(master=frame1, text='Check', font=('Merienda', 16), command=lambda: reqGenre(frame1))
 
     input1.pack(side = 'left', padx = 10)
     button1.pack(side = 'left')
@@ -245,6 +248,9 @@ def GUI():
     outputLabel.pack()
 
     window.mainloop()
+
+def clearFrame(frame):
+    frame.destroy()
 
 # Test window
 GUI()
