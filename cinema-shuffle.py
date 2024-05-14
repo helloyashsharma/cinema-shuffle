@@ -3,6 +3,9 @@ import json
 import random
 import customtkinter as ctk
 
+# Choice variable
+option = "1"
+
 # Variable to store bearer token from user
 bearer_token = str
 
@@ -45,6 +48,10 @@ selectedPop = int
 
 # Variable for selected adult rating
 isAdult = "true"
+
+# Function to clear frame
+def clearFrame(frame):
+    frame.destroy()
 
 # Function to fetch list of available genres
 def reqGenre(frame):
@@ -212,48 +219,6 @@ def editConfig():
 
     with open('config.json', 'w') as file:
         json.dump(configData, file, indent=4)
-
-# Tesing tkinter
-def GUI():
-    global bearer_token
-    global outputLabelString
-
-    # Window
-    window = ctk.CTk()
-    window.title('CinemaShuffle')
-    window.geometry('800x500')
-
-    # Font
-    ctk.FontManager.load_font('fonts/Merienda/Merienda-VariableFont_wght.ttf')
-
-    # Label
-    mainLabel = ctk.CTkLabel(master=window, text='Welcome to CinemaShuffle', font=('Merienda', 28))
-    mainLabel.pack()
-
-    # Ask user for tmdb bearer token
-    # Input
-    bearer_token = ctk.StringVar()
-
-    frame1 = ctk.CTkFrame(master=window)
-    input1 = ctk.CTkEntry(master=frame1, textvariable=bearer_token)
-    button1 = ctk.CTkButton(master=frame1, text='Check', font=('Merienda', 16), command=lambda: reqGenre(frame1))
-
-    input1.pack(side = 'left', padx = 10)
-    button1.pack(side = 'left')
-    frame1.pack(pady = 10)
-
-    # Output
-    outputLabelString = ctk.StringVar()
-    outputLabel = ctk.CTkLabel(master=window, text='Output', font=('Merienda', 24), textvariable=outputLabelString)
-    outputLabel.pack()
-
-    window.mainloop()
-
-def clearFrame(frame):
-    frame.destroy()
-
-# Test window
-GUI()
 
 # Function to send a request to the api
 def ping():
@@ -433,6 +398,51 @@ def popMenu():
         spliced = output['results'][splice*2:lengthOfResults] # Using list splicing to only keep the last 1/3rd splice elements
         output['results'] = spliced
 
+# Tesing tkinter
+def GUI():
+    global bearer_token
+    global outputLabelString
+
+    # Window
+    window = ctk.CTk()
+    window.title('CinemaShuffle')
+    window.geometry('800x500')
+
+    # Font
+    ctk.FontManager.load_font('fonts/Merienda/Merienda-VariableFont_wght.ttf')
+
+    # Label
+    mainLabel = ctk.CTkLabel(master=window, text='Welcome to CinemaShuffle', font=('Merienda', 28))
+    mainLabel.pack()
+
+    # Ask user for tmdb bearer token
+    # Input
+    bearer_token = ctk.StringVar()
+
+    frame1 = ctk.CTkFrame(master=window)
+    input1 = ctk.CTkEntry(master=frame1, textvariable=bearer_token)
+    button1 = ctk.CTkButton(master=frame1, text='Check', font=('Merienda', 16), command=lambda: reqGenre(frame1))
+
+    input1.pack(side = 'left', padx = 10)
+    button1.pack(side = 'left')
+    frame1.pack(pady = 10)
+
+    # Output
+    outputLabelString = ctk.StringVar()
+    outputLabel = ctk.CTkLabel(master=window, text='Output', font=('Merienda', 24), textvariable=outputLabelString)
+    outputLabel.pack()
+
+    # 2nd Menu
+    frame2 = ctk.CTkFrame(master=window)
+    button2 = ctk.CTkButton(master=frame2, text="Discover Movies", font=('Merienda', 16), command=lambda:[[ping(), parse()]])
+
+    button2.pack(side = "left")
+    frame2.pack(pady = 10)
+
+    window.mainloop()
+
+# Test window
+GUI()
 
 # Provide user options
 option = input("\nWhat would you like to do ? \n\n1.Discover upcoming movies.\n2.Search for movies in a particular year range.\n3.Search for movies in a single year.\n4.Use default config.\n5.Edit config file.\n6.Pick a random movie.\nSelect from options: 1, 2, 3, 4, 5, 6\n")
