@@ -14,6 +14,7 @@ pageNum = "1"
 
 # Variable for output
 outputLabelString = str
+outputLabelString2 = str
 
 # Variable to store json response from api
 output = str
@@ -241,8 +242,10 @@ def parse():
     print("\nList of movies:\n")
 
     global output
+    global outputLabelString2
 
     lengthOfResults = len(output['results'])
+    outputLabelString2.set(output)
 
     i = 0
     while i < lengthOfResults:
@@ -402,6 +405,7 @@ def popMenu():
 def GUI():
     global bearer_token
     global outputLabelString
+    global outputLabelString2
 
     # Window
     window = ctk.CTk()
@@ -436,7 +440,12 @@ def GUI():
     frame2 = ctk.CTkFrame(master=window)
     button2 = ctk.CTkButton(master=frame2, text="Discover Movies", font=('Merienda', 16), command=lambda:[[ping(), parse()]])
 
-    button2.pack(side = "left")
+    # Output
+    outputLabelString2 = ctk.StringVar()
+    outputLabel2 = ctk.CTkLabel(master=frame2, font=('Merienda', 24), textvariable=outputLabelString2)
+    
+    button2.pack()
+    outputLabel2.pack()
     frame2.pack(pady = 10)
 
     window.mainloop()
