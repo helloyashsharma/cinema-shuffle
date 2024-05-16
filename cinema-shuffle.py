@@ -442,7 +442,7 @@ def GUI():
 
     # Output
     outputLabelString2 = ctk.StringVar()
-    outputLabel2 = ctk.CTkLabel(master=frame2, font=('Merienda', 24), textvariable=outputLabelString2)
+    outputLabel2 = ctk.CTkLabel(master=frame2, font=('Merienda', 24), textvariable=outputLabelString2, width=400, height=400)
     
     button2.pack()
     outputLabel2.pack()
