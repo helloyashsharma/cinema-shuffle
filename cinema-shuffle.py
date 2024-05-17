@@ -437,12 +437,12 @@ def GUI():
     outputLabel.pack()
 
     # 2nd Menu
-    frame2 = ctk.CTkFrame(master=window)
+    frame2 = ctk.CTkScrollableFrame(master=window)
     button2 = ctk.CTkButton(master=frame2, text="Discover Movies", font=('Merienda', 16), command=lambda:[[ping(), parse()]])
 
     # Output
     outputLabelString2 = ctk.StringVar()
-    outputLabel2 = ctk.CTkLabel(master=frame2, font=('Merienda', 24), textvariable=outputLabelString2, width=400, height=400)
+    outputLabel2 = ctk.CTkLabel(master=frame2, font=('Merienda', 18), textvariable=outputLabelString2, width=400, height=400)
     
     button2.pack()
     outputLabel2.pack()
