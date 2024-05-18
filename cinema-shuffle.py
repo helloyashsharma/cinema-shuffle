@@ -14,7 +14,7 @@ pageNum = "1"
 
 # Variable for output
 outputLabelString = str
-outputLabelString2 = str
+outputTextString = str
 
 # Variable to store json response from api
 output = str
@@ -242,11 +242,13 @@ def parse():
     print("\nList of movies:\n")
 
     global output
-    global outputLabelString2
+    global outputTextString
+
+    outputTextString = ""
 
     lengthOfResults = len(output['results'])
-    outputLabelString2.set(output)
 
+    # Print for CLI
     i = 0
     while i < lengthOfResults:
         print("Name: "+output['results'][i]['title'])
@@ -254,6 +256,15 @@ def parse():
         print("Rating: {:.2f}".format(output['results'][i]['vote_average'])) # Truncating rating up to 2 decimal places
         print("Synopsis: "+output['results'][i]['overview']+"\n")
         i+=1
+    
+    # For textoutput in GUI
+    j = 0
+    while j < lengthOfResults:
+        outputTextString += "Name: "+output['results'][j]['title'] + "\n"
+        outputTextString += "Released on: "+output['results'][j]['release_date'] + "\n"
+        outputTextString += "Rating: {:.2f}".format(output['results'][j]['vote_average']) + "\n"# Truncating rating up to 2 decimal places
+        outputTextString += "Synopsis: "+output['results'][j]['overview']+"\n\n"
+        j+=1
 
 # Year checker
 def checkYears():
@@ -405,7 +416,7 @@ def popMenu():
 def GUI():
     global bearer_token
     global outputLabelString
-    global outputLabelString2
+    global outputTextString
 
     # Window
     window = ctk.CTk()
@@ -437,15 +448,19 @@ def GUI():
     outputLabel.pack()
 
     # 2nd Menu
-    frame2 = ctk.CTkScrollableFrame(master=window)
-    button2 = ctk.CTkButton(master=frame2, text="Discover Movies", font=('Merienda', 16), command=lambda:[[ping(), parse()]])
+    frame2 = ctk.CTkFrame(master=window)
+    button2 = ctk.CTkButton(master=frame2, text="Discover Movies", font=('Merienda', 16), command=lambda:[[ping(), parse(), update()]])
 
     # Output
-    outputLabelString2 = ctk.StringVar()
-    outputLabel2 = ctk.CTkLabel(master=frame2, font=('Merienda', 18), textvariable=outputLabelString2, width=400, height=400)
+    outputText = ctk.CTkTextbox(master=frame2, wrap='word', font=('Merienda', 18), width=400, height=400)
+    
+    # Function to update the textbox
+    def update():
+        outputText.insert("1.0", outputTextString)
+        outputText.configure(state=ctk.DISABLED)
     
     button2.pack()
-    outputLabel2.pack()
+    outputText.pack()
     frame2.pack(pady = 10)
 
     window.mainloop()
