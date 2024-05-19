@@ -452,7 +452,7 @@ def GUI():
     button2 = ctk.CTkButton(master=frame2, text="Discover Movies", font=('Merienda', 16), command=lambda:[[ping(), parse(), update()]])
 
     # Output
-    outputText = ctk.CTkTextbox(master=frame2, wrap='word', font=('Merienda', 18), width=400, height=400)
+    outputText = ctk.CTkTextbox(master=frame2, wrap='word', font=('Merienda', 18), width=600, height=400)
     
     # Function to update the textbox
     def update():
