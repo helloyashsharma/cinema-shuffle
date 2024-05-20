@@ -449,11 +449,34 @@ def GUI():
 
     # 2nd Menu
     frame2 = ctk.CTkFrame(master=window)
-    button2 = ctk.CTkButton(master=frame2, text="Discover Movies", font=('Merienda', 16), command=lambda:[[ping(), parse(), update()]])
+    button2 = ctk.CTkButton(master=frame2, text="Discover Movies", font=('Merienda', 16), command=lambda:[[ping(), parse(), outputTiles()]])
 
     # Output
     outputText = ctk.CTkTextbox(master=frame2, wrap='word', font=('Merienda', 18), width=600, height=400)
     
+    # Function to create output tiles
+    def outputTiles():
+        global output
+        lengthOfResults = len(output['results'])
+        for i in range(lengthOfResults):
+            movies = output['results'][i]
+            tileFrame = ctk.CTkFrame(master=window)
+            tileFrame.pack(pady=5, padx=5, fill='x')
+
+            nameLabel = ctk.CTkLabel(master=tileFrame, text=f"Name: {movies['title']}")
+            nameLabel.pack(anchor='w')
+
+            dateLabel = ctk.CTkLabel(master=tileFrame, text=f"Released on: {movies['release_date']}")
+            dateLabel.pack(anchor='w')
+
+            ratingLabel = ctk.CTkLabel(master=tileFrame, text=f"Rating: {movies['vote_average']:.2f}")
+            ratingLabel.pack(anchor='w')
+
+            synopsisLabel = ctk.CTkLabel(master=tileFrame, text=f"Synopsis: {movies['overview']}")
+            synopsisLabel.pack(anchor='w')
+            
+
+
     # Function to update the textbox
     def update():
         outputText.insert("1.0", outputTextString)
