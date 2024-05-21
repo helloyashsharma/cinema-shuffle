@@ -448,7 +448,7 @@ def GUI():
     outputLabel.pack()
 
     # 2nd Menu
-    frame2 = ctk.CTkFrame(master=window)
+    frame2 = ctk.CTkScrollableFrame(master=window)
     button2 = ctk.CTkButton(master=frame2, text="Discover Movies", font=('Merienda', 16), command=lambda:[[ping(), parse(), outputTiles()]])
 
     # Output
@@ -460,7 +460,7 @@ def GUI():
         lengthOfResults = len(output['results'])
         for i in range(lengthOfResults):
             movies = output['results'][i]
-            tileFrame = ctk.CTkFrame(master=window)
+            tileFrame = ctk.CTkFrame(master=frame2)
             tileFrame.pack(pady=5, padx=5, fill='x')
 
             nameLabel = ctk.CTkLabel(master=tileFrame, text=f"Name: {movies['title']}")
