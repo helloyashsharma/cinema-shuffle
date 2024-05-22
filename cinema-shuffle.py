@@ -448,11 +448,11 @@ def GUI():
     outputLabel.pack()
 
     # 2nd Menu
-    frame2 = ctk.CTkScrollableFrame(master=window)
-    button2 = ctk.CTkButton(master=frame2, text="Discover Movies", font=('Merienda', 16), command=lambda:[[ping(), parse(), outputTiles()]])
+    # frame2 = ctk.CTkScrollableFrame(master=window)
+    button2 = ctk.CTkButton(master=window, text="Discover Movies", font=('Merienda', 16), command=lambda:[[ping(), parse(), outputTiles()]])
 
     # Output
-    outputText = ctk.CTkTextbox(master=frame2, wrap='word', font=('Merienda', 18), width=600, height=400)
+    outputText = ctk.CTkTextbox(master=window, wrap='word', font=('Merienda', 18), width=600, height=400)
     
     # Function to create output tiles
     def outputTiles():
@@ -460,7 +460,7 @@ def GUI():
         lengthOfResults = len(output['results'])
         for i in range(lengthOfResults):
             movies = output['results'][i]
-            tileFrame = ctk.CTkFrame(master=frame2)
+            tileFrame = ctk.CTkFrame(master=window)
             tileFrame.pack(pady=5, padx=5, fill='x')
 
             nameLabel = ctk.CTkLabel(master=tileFrame, text=f"Name: {movies['title']}")
@@ -483,8 +483,8 @@ def GUI():
         outputText.configure(state=ctk.DISABLED)
     
     button2.pack()
-    outputText.pack()
-    frame2.pack(pady = 10)
+    outputText.pack(pady = 10)
+    # frame2.pack(pady = 10)
 
     window.mainloop()
 
