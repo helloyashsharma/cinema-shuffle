@@ -11,7 +11,7 @@ Work in progress python script to pick movies based on user criteria. This produ
 - Filter movies based on popularity
 - Pick a random movie
 - Use and edit local config file for movie search parameters
-- GUI using CustomTkinter
+- [GUI](https://www.figma.com/proto/2TZJRKZOUt8PHNs7EeKmSJ/CinemaShuffle?node-id=1-2&t=q0tUmsboYafPb7Uf-1) using CustomTkinter
 
 
 ## Requirements
