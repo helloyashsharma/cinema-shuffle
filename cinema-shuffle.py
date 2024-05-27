@@ -451,6 +451,7 @@ def GUI():
     # 2nd Menu
     frame2 = ctk.CTkScrollableFrame(master=window, width=600, height=500)
     cal = Calendar(master=frame2)
+    cal2 = Calendar(master=frame2)
     button2 = ctk.CTkButton(master=window, text="Discover Movies", font=('Merienda', 16), command=lambda:[[ping(), parse(), outputTiles()]])
 
     # Output
@@ -485,6 +486,7 @@ def GUI():
     #     outputText.configure(state=ctk.DISABLED)
     
     cal.pack()
+    cal2.pack(padx = 10)
     button2.pack()
     # outputText.pack(pady = 10)
     frame2.pack(pady = 10)
