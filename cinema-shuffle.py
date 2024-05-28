@@ -485,8 +485,8 @@ def GUI():
     #     outputText.insert("1.0", outputTextString)
     #     outputText.configure(state=ctk.DISABLED)
     
-    cal.pack()
-    cal2.pack(padx = 10)
+    cal.pack(side = 'left')
+    cal2.pack(side = 'left', padx = 10)
     button2.pack()
     # outputText.pack(pady = 10)
     frame2.pack(pady = 10)
