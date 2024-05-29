@@ -452,7 +452,11 @@ def GUI():
     frame2 = ctk.CTkScrollableFrame(master=window, width=600, height=500)
     cal = Calendar(master=frame2)
     cal2 = Calendar(master=frame2)
-    button2 = ctk.CTkButton(master=window, text="Discover Movies", font=('Merienda', 16), command=lambda:[[ping(), parse(), outputTiles()]])
+    button2 = ctk.CTkButton(master=window, text="Discover Movies", font=('Merienda', 16), command=lambda:[[ping(), parse(), outputTiles(), hideWidget(cal)]])
+
+    # Function to hide widgets
+    def hideWidget(widget):
+        widget.pack_forget()
 
     # Output
     # outputText = ctk.CTkTextbox(master=window, wrap='word', font=('Merienda', 18), width=600, height=400)
