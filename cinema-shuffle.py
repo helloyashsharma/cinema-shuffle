@@ -481,6 +481,9 @@ def GUI():
 
             synopsisLabel = ctk.CTkLabel(master=tileFrame, text=f"Synopsis: {movies['overview']}", wraplength=560, justify="left")
             synopsisLabel.pack(anchor='w')
+
+            lineLabel = ctk.CTkLabel(master=tileFrame, text=f"................................")
+            lineLabel.pack(anchor='w')
             
 
 
