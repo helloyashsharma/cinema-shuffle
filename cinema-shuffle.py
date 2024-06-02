@@ -468,7 +468,7 @@ def GUI():
         for i in range(lengthOfResults):
             movies = output['results'][i]
             tileFrame = ctk.CTkFrame(master=frame2, border_width=2, border_color="lightblue")
-            tileFrame.pack(pady=5, padx=5, fill='x')
+            tileFrame.pack(pady=10, padx=10, fill='x')
 
             nameLabel = ctk.CTkLabel(master=tileFrame, text=f"Name: {movies['title']}")
             nameLabel.pack(anchor='w')
@@ -482,8 +482,8 @@ def GUI():
             synopsisLabel = ctk.CTkLabel(master=tileFrame, text=f"Synopsis: {movies['overview']}", wraplength=560, justify="left")
             synopsisLabel.pack(anchor='w')
 
-            lineLabel = ctk.CTkLabel(master=tileFrame, text=f"................................")
-            lineLabel.pack(anchor='w')
+            # lineLabel = ctk.CTkLabel(master=tileFrame, text=f"................................")
+            # lineLabel.pack(anchor='w')
             
 
 
